@@ -3,13 +3,14 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./DB/connectDB");
 const dotenv = require("dotenv");
+const authRouter = require("./routes/auth/auth-routes");
 
 dotenv.config();
 const app = express();
 connectDB();
 app.use(
   cors({
-    origin: "http://localhost:5173/",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
@@ -24,7 +25,8 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
+app.use("/api/auth", authRouter);
 
-app.listen(() =>
+app.listen(process.env.PORT, () =>
   console.log(`DB is Connected Successfully at Port of ${process.env.PORT}`)
 );
