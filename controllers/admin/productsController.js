@@ -102,8 +102,9 @@ const editProduct = async (req, res) => {
     findProduct.description = description || findProduct.description;
     findProduct.category = category || findProduct.category;
     findProduct.brand = brand || findProduct.brand;
-    findProduct.price = price || findProduct.price;
-    findProduct.salePrice = salePrice || findProduct.salePrice;
+    findProduct.price = price === "" ? 0 : price || findProduct.price;
+    findProduct.salePrice =
+      salePrice === "" ? 0 : salePrice || findProduct.salePrice;
     findProduct.totalStocks = totalStocks || findProduct.totalStocks;
     findProduct.image = image || findProduct.image;
 
@@ -127,7 +128,9 @@ const editProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
+    // console.log(id);
     const product = await Product.findByIdAndDelete(id);
+    // console.log(product);
     if (!product) {
       return res
         .status(404)
@@ -135,7 +138,7 @@ const deleteProduct = async (req, res) => {
     }
 
     res.status(200).json({
-      success: ture,
+      success: true,
       message: "Product deleted SuccessFully",
     });
   } catch (error) {
