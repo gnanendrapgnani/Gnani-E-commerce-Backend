@@ -13,7 +13,7 @@ const handleImageUpload = async (req, res) => {
       result,
     });
   } catch (error) {
-    console.log(error);
+    console.log("Error Form image upload",error);
     res.json({
       success: false,
       message: "Error Occoured",
