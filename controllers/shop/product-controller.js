@@ -43,11 +43,33 @@ const getFilterProduct = async (req, res) => {
     const products = await Product.find(filters).sort(sort);
 
     // console.log(products)
-    res.status(200).json({ success: true, data: products, category, brand, sortBy });
+    res.status(200).json({ success: true, data: products, });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Some error occurred" });
   }
 };
 
-module.exports = { getFilterProduct };
+const getProductdetails = async (req, res) =>{
+  try {
+    const {id} = req.params;
+
+    const product  =  await Product.findById(id);
+
+    if(!product) return res.status({
+      success: false,
+      message: 'product not found'
+    })
+
+    res.status(200).json({
+      success: true,
+      data: product
+    })
+
+  } catch (error) {
+     console.error(error);
+    res.status(500).json({ success: false, message: "Some error occurred" });
+  }
+}
+
+module.exports = { getFilterProduct, getProductdetails };
